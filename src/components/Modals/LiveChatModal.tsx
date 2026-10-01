@@ -155,17 +155,7 @@ export const LiveChatModal: React.FC = () => {
   } = useTrading();
 
   const [activeChatTab, setActiveChatTab] = useState<'SUPPORT' | 'COMMUNITY'>('SUPPORT');
-  const [supportMessages, setSupportMessages] = useState<ChatMessage[]>(() => {
-    const saved = localStorage.getItem('binance_livechat_history');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        return INITIAL_SUPPORT_MESSAGES;
-      }
-    }
-    return INITIAL_SUPPORT_MESSAGES;
-  });
+  const [supportMessages, setSupportMessages] = useState<ChatMessage[]>(() => INITIAL_SUPPORT_MESSAGES);
 
   const [communityMessages, setCommunityMessages] = useState<ChatMessage[]>(INITIAL_COMMUNITY_MESSAGES);
   const [inputMessage, setInputMessage] = useState('');
@@ -194,21 +184,21 @@ export const LiveChatModal: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Save support chat history to localStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem('binance_livechat_history', JSON.stringify(supportMessages.slice(-40)));
-    } catch {
-      // ignore
-    }
-  }, [supportMessages]);
-
+  // Reset live chat to a fresh session each time the modal opens
   useEffect(() => {
     if (activeModal === 'LIVE_CHAT') {
+      setSupportMessages(INITIAL_SUPPORT_MESSAGES);
+      setInputMessage('');
+      setIsTyping(false);
+      try {
+        localStorage.removeItem('binance_livechat_history');
+      } catch {
+        // ignore
+      }
       scrollToBottom();
       setTimeout(() => inputRef.current?.focus(), 150);
     }
-  }, [activeModal, activeChatTab, supportMessages, communityMessages, isTyping]);
+  }, [activeModal]);
 
   // Periodic community stream simulation
   useEffect(() => {
