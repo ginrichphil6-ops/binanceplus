@@ -1,0 +1,6 @@
+{
+  "name": "Binance Pro Trading Platform",
+  "description": "Pixel-perfect Binance cryptocurrency exchange trading terminal with real-time order books, interactive TradingView-style candlestick charts, order execution engine, and portfolio management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #181A20;
+    --bg-secondary: #1E2329;
+    --bg-hover: #2B313A;
+    --bg-card: #1E2329;
+    --binance-yellow: #FCD535;
+    --binance-yellow-hover: #F0B90B;
+    --bull-green: #0ECB81;
+    --bear-red: #F6465D;
+    --text-primary: #EAECEF;
+    --text-secondary: #848E9C;
+    --text-muted: #5E6673;
+    --border-color: #2B313A;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #181A20;
+    color: #EAECEF;
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2B313A;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #474D57;
+  }
+}
+
+.font-mono-numbers {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes flashGreen {
+  0% { background-color: rgba(14, 203, 129, 0.25); color: #0ECB81; }
+  100% { background-color: transparent; }
+}
+
+@keyframes flashRed {
+  0% { background-color: rgba(246, 70, 93, 0.25); color: #F6465D; }
+  100% { background-color: transparent; }
+}
+
+.flash-up {
+  animation: flashGreen 0.6s ease-out;
+}
+
+.flash-down {
+  animation: flashRed 0.6s ease-out;
+}

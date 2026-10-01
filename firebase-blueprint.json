@@ -1,0 +1,69 @@
+{
+  "entities": {
+    "ChatSession": {
+      "title": "ChatSession",
+      "description": "A live support chat session between a user and support agents",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userAvatar": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "IN_PROGRESS", "RESOLVED"] },
+        "lastMessage": { "type": "string" },
+        "lastMessageTime": { "type": "number" },
+        "unreadCount": { "type": "number" },
+        "assignedAgent": { "type": "string" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "userId", "status", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "An individual message in a chat session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "sessionId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderRole": { "type": "string", "enum": ["USER", "AGENT", "SYSTEM"] },
+        "text": { "type": "string", "maxLength": 2000 },
+        "timestamp": { "type": "number" },
+        "attachmentUrl": { "type": "string" },
+        "read": { "type": "boolean" }
+      },
+      "required": ["id", "senderId", "senderRole", "text", "timestamp"]
+    },
+    "CommunityMessage": {
+      "title": "CommunityMessage",
+      "description": "A live message in the global crypto traders lounge",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderBadge": { "type": "string" },
+        "text": { "type": "string", "maxLength": 1000 },
+        "sentiment": { "type": "string", "enum": ["BULLISH", "BEARISH", "NEUTRAL"] },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "senderId", "senderName", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/chatSessions/{sessionId}": {
+      "schema": "ChatSession",
+      "description": "Customer support chat sessions"
+    },
+    "/chatSessions/{sessionId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Messages within a customer support chat session"
+    },
+    "/communityMessages/{messageId}": {
+      "schema": "CommunityMessage",
+      "description": "Public messages in the crypto traders lounge"
+    }
+  }
+}
