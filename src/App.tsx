@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TradingProvider, useTrading } from './context/TradingContext';
+import { LoginPage } from './components/Auth/LoginPage';
 import { HomeScreen } from './components/Home/HomeScreen';
 import { MarketsScreen } from './components/Markets/MarketsScreen';
 import { FuturesScreen } from './components/Futures/FuturesScreen';
@@ -19,7 +20,7 @@ import { UserProfileModal } from './components/Modals/UserProfileModal';
 import { NotificationDrawer } from './components/Modals/NotificationDrawer';
 import { LiveChatModal } from './components/Modals/LiveChatModal';
 import { FloatingChatButton } from './components/Navigation/FloatingChatButton';
-import { Smartphone, Monitor } from 'lucide-react';
+import { Smartphone, Monitor, LogOut } from 'lucide-react';
 
 function ProTradeTerminal() {
   return (
@@ -56,7 +57,7 @@ function ProTradeTerminal() {
 }
 
 function MainApp() {
-  const { currentTab, setCurrentTab, setActiveModal } = useTrading();
+  const { currentTab, setCurrentTab, setActiveModal, logout } = useTrading();
   const [deviceFrameMode, setDeviceFrameMode] = useState<'AUTO' | 'PHONE'>('AUTO');
 
   return (
@@ -66,7 +67,7 @@ function MainApp() {
         <div className="flex items-center gap-2">
           <span className="font-bold text-[#EAECEF] tracking-tight">BINANCE</span>
           <span>·</span>
-          <span>Official App &amp; Pro Trading Terminal</span>
+          <span>Official App</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -77,6 +78,15 @@ function MainApp() {
           >
             {deviceFrameMode === 'PHONE' ? <Monitor size={13} /> : <Smartphone size={13} />}
             <span>{deviceFrameMode === 'PHONE' ? 'Full Width View' : 'Mobile Frame View'}</span>
+          </button>
+
+          <button
+            onClick={logout}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#F6465D]/10 hover:bg-[#F6465D]/20 text-[#F6465D] border border-[#F6465D]/30 transition-colors"
+            title="Log out and return to Black & Yellow Login Page"
+          >
+            <LogOut size={12} />
+            <span>Switch / Log Out</span>
           </button>
         </div>
       </div>
@@ -125,10 +135,21 @@ function MainApp() {
   );
 }
 
+function RootApp() {
+  const { isAuthenticated } = useTrading();
+
+  if (!isAuthenticated) {
+    return <LoginPage />;
+  }
+
+  return <MainApp />;
+}
+
 export default function App() {
   return (
     <TradingProvider>
-      <MainApp />
+      <RootApp />
     </TradingProvider>
   );
 }
+

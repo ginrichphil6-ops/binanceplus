@@ -77,3 +77,13 @@ export interface AssetBalance {
 export type ChartTimeframe = '1s' | '15m' | '1h' | '4h' | '1D';
 export type ChartType = 'CANDLE' | 'LINE' | 'DEPTH';
 export type AppTab = 'HOME' | 'MARKETS' | 'TRADE' | 'FUTURES' | 'ASSETS';
+
+export interface UserProfile {
+  username: string;
+  name: string;
+  email: string;
+  userId: string;
+  vipLevel: string;
+  kycStatus: string;
+  avatarInitials: string;
+}

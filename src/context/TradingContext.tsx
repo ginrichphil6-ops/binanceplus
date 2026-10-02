@@ -12,6 +12,7 @@ import {
   OrderType,
   MarginMode,
   AppTab,
+  UserProfile,
 } from '../types/crypto';
 import {
   INITIAL_PAIRS,
@@ -47,12 +48,16 @@ interface TradingContextType {
   homeMode: 'EXCHANGE' | 'WALLET';
   balanceMode: 'SCREENSHOT' | 'ACTUAL';
   balanceHidden: boolean;
+  isAuthenticated: boolean;
+  currentUser: UserProfile;
 
   // Actions
   setCurrentTab: (tab: AppTab) => void;
   setHomeMode: (mode: 'EXCHANGE' | 'WALLET') => void;
   setBalanceMode: (mode: 'SCREENSHOT' | 'ACTUAL') => void;
   setBalanceHidden: (hidden: boolean) => void;
+  login: (username: string, password: string) => { success: boolean; message: string };
+  logout: () => void;
   setActivePairById: (id: string) => void;
   setTimeframe: (tf: ChartTimeframe) => void;
   setChartType: (ct: ChartType) => void;
@@ -175,6 +180,81 @@ export const TradingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [homeMode, setHomeMode] = useState<'EXCHANGE' | 'WALLET'>('EXCHANGE');
   const [balanceMode, setBalanceMode] = useState<'SCREENSHOT' | 'ACTUAL'>('SCREENSHOT');
   const [balanceHidden, setBalanceHidden] = useState<boolean>(false);
+
+  // Authentication State (default to false on fresh visit so user can test the login page)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('binance_authenticated_user') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const [currentUser, setCurrentUser] = useState<UserProfile>({
+    username: 'DiannePizallo88',
+    name: 'Dianne Pizallo',
+    email: 'diannepizallo88@gmail.com',
+    userId: '89342019',
+    vipLevel: 'VIP 0',
+    kycStatus: 'Verified',
+    avatarInitials: 'DP',
+  });
+
+  const login = useCallback((userVal: string, passVal: string) => {
+    const rawUser = userVal.trim();
+    const normUser = rawUser.toLowerCase();
+    
+    // Check user: DiannePizallo88 (supports DiannePizallo88, email, or dianne)
+    const validUsernames = [
+      'diannepizallo88',
+      'diannepizallo88@gmail.com',
+      'diannepizallo88@binance.com',
+      'diannepizallo',
+      'dianne'
+    ];
+    const isUserValid = validUsernames.includes(normUser);
+    
+    // Check password: Merrypizallo#00
+    const isPassValid = passVal === 'Merrypizallo#00';
+
+    if (isUserValid && isPassValid) {
+      setIsAuthenticated(true);
+      setCurrentTab('HOME');
+      try {
+        localStorage.setItem('binance_authenticated_user', 'true');
+      } catch {}
+      soundManager.playOrderPlaced();
+      return {
+        success: true,
+        message: 'Welcome back, Dianne Pizallo! Authentication successful.',
+      };
+    }
+
+    if (!isUserValid && !isPassValid) {
+      return {
+        success: false,
+        message: 'Incorrect User Name and Password. Please use DiannePizallo88 & Merrypizallo#00.',
+      };
+    }
+    if (!isUserValid) {
+      return {
+        success: false,
+        message: 'User Name not recognized. Please enter DiannePizallo88.',
+      };
+    }
+    return {
+      success: false,
+      message: 'Incorrect password for DiannePizallo88. Expected Merrypizallo#00.',
+    };
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsAuthenticated(false);
+    setActiveModal(null);
+    try {
+      localStorage.removeItem('binance_authenticated_user');
+    } catch {}
+  }, []);
 
   // References for ticker simulation
   const lastPriceRef = useRef(lastPrice);
@@ -750,10 +830,14 @@ export const TradingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         homeMode,
         balanceMode,
         balanceHidden,
+        isAuthenticated,
+        currentUser,
         setCurrentTab,
         setHomeMode,
         setBalanceMode,
         setBalanceHidden,
+        login,
+        logout,
         setActivePairById,
         setTimeframe,
         setChartType,

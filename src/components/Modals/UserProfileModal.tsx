@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useTrading } from '../../context/TradingContext';
-import { X, Shield, Key, Users, CheckCircle, ExternalLink, RefreshCw, Copy, Check, UserCheck } from 'lucide-react';
+import { X, Shield, Key, Users, CheckCircle, ExternalLink, RefreshCw, Copy, Check, LogOut, UserCheck } from 'lucide-react';
 import { formatPrice } from '../../utils/formatters';
 
 export const UserProfileModal: React.FC = () => {
-  const { activeModal, setActiveModal, assets, resetDemoAccount } = useTrading();
+  const { activeModal, setActiveModal, assets, resetDemoAccount, currentUser, logout } = useTrading();
   const [copiedId, setCopiedId] = useState(false);
 
   if (activeModal !== 'USER_PROFILE') return null;
@@ -28,7 +28,7 @@ export const UserProfileModal: React.FC = () => {
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-sm text-[#EAECEF]">Dianne Pizallo</span>
-              <span className="text-[11px] text-[#848E9C]">User Center · @diannepizallo</span>
+              <span className="text-[11px] text-[#848E9C]">Username: <strong className="text-[#FCD535] font-mono">DiannePizallo88</strong></span>
             </div>
           </div>
           <button
@@ -45,9 +45,9 @@ export const UserProfileModal: React.FC = () => {
           <div className="bg-[#181A20] p-4 rounded-xl border border-[#2B313A] flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-[11px] text-[#848E9C]">Account Name</span>
+                <span className="text-[11px] text-[#848E9C]">Account Name &amp; User</span>
                 <div className="text-base font-bold text-[#EAECEF]">
-                  Dianne Pizallo
+                  Dianne Pizallo <span className="text-xs text-[#848E9C] font-mono">(@DiannePizallo88)</span>
                 </div>
               </div>
               <span className="flex items-center gap-1 text-[11px] text-[#0ECB81] bg-[#0ECB81]/15 px-2 py-0.5 rounded-full font-medium">
@@ -78,8 +78,8 @@ export const UserProfileModal: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#2B313A]/60 text-[11px]">
               <div>
-                <span className="text-[#848E9C]">KYC Status:</span>
-                <span className="ml-1 text-[#0ECB81] font-medium">Identity Verified</span>
+                <span className="text-[#848E9C]">Email:</span>
+                <span className="ml-1 text-[#EAECEF] font-mono">diannepizallo88@gmail.com</span>
               </div>
               <div>
                 <span className="text-[#848E9C]">Trading Fee:</span>
@@ -133,19 +133,40 @@ export const UserProfileModal: React.FC = () => {
             </div>
           </div>
 
-          {/* Reset Demo Button */}
-          <button
-            onClick={() => {
-              resetDemoAccount();
-              setActiveModal(null);
-            }}
-            className="w-full py-2.5 rounded-xl bg-[#2B313A] hover:bg-[#38404B] text-[#EAECEF] font-medium flex items-center justify-center gap-2 transition-colors"
-          >
-            <RefreshCw size={13} />
-            <span>Reset Demo Portfolio to Initial State</span>
-          </button>
+          {/* Action Buttons */}
+          <div className="flex flex-col gap-2.5 pt-1">
+            <button
+              onClick={() => {
+                resetDemoAccount();
+                setActiveModal(null);
+              }}
+              className="w-full py-2.5 rounded-xl bg-[#2B313A] hover:bg-[#38404B] text-[#EAECEF] font-medium flex items-center justify-center gap-2 transition-colors"
+            >
+              <RefreshCw size={13} />
+              <span>Reset Demo Portfolio to Initial State</span>
+            </button>
+
+            {/* Logged in User Session Tab */}
+            <div className="bg-[#181A20] border border-[#FCD535]/30 rounded-xl px-3.5 py-2.5 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="w-2 h-2 rounded-full bg-[#0ECB81] animate-pulse shrink-0" />
+                <span className="text-[#848E9C]">Logged in:</span>
+                <span className="font-bold text-[#EAECEF] truncate font-mono">DiannePizallo88</span>
+                <span className="text-[10px] bg-[#FCD535]/15 text-[#FCD535] px-1.5 py-0.2 rounded font-medium">VIP 0</span>
+              </div>
+              <button
+                onClick={logout}
+                className="text-[#F6465D] hover:underline text-[11px] font-medium flex items-center gap-1 shrink-0"
+                title="Log out and return to Black & Yellow Login Page"
+              >
+                <LogOut size={12} />
+                <span>Log Out</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
+

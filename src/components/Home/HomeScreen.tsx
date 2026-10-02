@@ -36,6 +36,8 @@ export const HomeScreen: React.FC = () => {
     setBalanceMode,
     balanceHidden,
     setBalanceHidden,
+    currentUser,
+    logout,
   } = useTrading();
 
   // Modals state

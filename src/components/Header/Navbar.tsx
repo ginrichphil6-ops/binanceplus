@@ -22,6 +22,8 @@ export const Navbar: React.FC = () => {
     notificationCount,
     resetDemoAccount,
     assets,
+    currentUser,
+    logout,
   } = useTrading();
 
   const [activeNav, setActiveNav] = useState('Trade');
@@ -133,11 +135,12 @@ export const Navbar: React.FC = () => {
         <button
           onClick={() => setActiveModal('USER_PROFILE')}
           className="flex items-center gap-1.5 pl-1.5 pr-2 py-1 rounded bg-[#1E2329] hover:bg-[#2B313A] border border-[#2B313A] transition-colors"
+          title="User Center: DiannePizallo88"
         >
           <div className="w-5 h-5 rounded-full bg-[#FCD535]/20 text-[#FCD535] flex items-center justify-center font-bold text-[10px]">
             DP
           </div>
-          <span className="hidden sm:inline text-[11px] font-medium text-[#EAECEF]">Dianne · VIP 0</span>
+          <span className="hidden sm:inline text-[11px] font-medium text-[#EAECEF]">DiannePizallo88 · VIP 0</span>
         </button>
 
         {/* App download icon */}
