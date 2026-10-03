@@ -21,6 +21,7 @@ import {
   ExternalLink,
   PhoneCall,
   Image as ImageIcon,
+  Mail,
 } from 'lucide-react';
 import { soundManager } from '../../utils/audio';
 
@@ -165,6 +166,7 @@ export const LiveChatModal: React.FC = () => {
   const [attachedImage, setAttachedImage] = useState<string | null>(null);
   const [traderCount, setTraderCount] = useState(1482);
   const [copiedWhatsApp, setCopiedWhatsApp] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
   const [customWhatsAppNumber, setCustomWhatsAppNumber] = useState(() => {
     const saved = localStorage.getItem('binance_support_whatsapp');
     if (!saved || saved.includes('555')) {
@@ -249,6 +251,12 @@ export const LiveChatModal: React.FC = () => {
     setTimeout(() => setCopiedWhatsApp(false), 2000);
   };
 
+  const handleCopyEmail = (emailToCopy: string = 'Binancecareplus@gmail.com') => {
+    navigator.clipboard.writeText(emailToCopy);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
   const handleSaveCustomNumber = () => {
     const trimmed = tempNumberInput.trim() || DEFAULT_WHATSAPP_NUMBER;
     setCustomWhatsAppNumber(trimmed);
@@ -283,7 +291,7 @@ export const LiveChatModal: React.FC = () => {
 
     if (isAskingForAuthKey) {
       return {
-        text: `🔒 Security Protocol Alert: For the protection of your funds and assets, Live Chat agents and automated assistants are strictly prohibited from distributing Security Auth Keys.\n\n👉 The ONLY authorized way to obtain or verify your Security Auth Key is to contact our Senior Risk Officer directly on WhatsApp. Please chat with our VIP WhatsApp Officer now to verify your account and receive your authorization key:`,
+        text: `🔒 Security Protocol Alert: For the protection of your funds and assets, Live Chat agents and automated assistants are strictly prohibited from distributing Security Auth Keys.\n\n👉 You can contact our Senior Risk Officer directly on WhatsApp or via our suggested VIP email (Binancecareplus@gmail.com) to verify your account and receive your authorization key:`,
         isWhatsAppCard: true,
         whatsAppNumber: customWhatsAppNumber,
         actionButton: {
@@ -314,7 +322,7 @@ export const LiveChatModal: React.FC = () => {
 
     if (needsHumanOrWhatsApp) {
       return {
-        text: `Here is our official 24/7 Binance VIP Support WhatsApp number for direct one-on-one personal assistance. A dedicated Senior Support Officer is standing by to resolve any complex verification, deposit, or order issues:`,
+        text: `Here is our official Binance VIP Support desk for direct personal assistance. You can contact our Senior Support Officer on WhatsApp or via our suggested email (Binancecareplus@gmail.com) for any verification, deposit, or order issues:`,
         isWhatsAppCard: true,
         whatsAppNumber: customWhatsAppNumber,
         actionButton: {
@@ -412,7 +420,7 @@ export const LiveChatModal: React.FC = () => {
 
     // 9. Default smart response with WhatsApp fallback offer
     return {
-      text: `Thanks for reaching out! Regarding "${userText.slice(0, 40)}...", our exchange systems and trading engines are operating with 100% uptime. You can place spot trades on ${activePair.symbol} at current price $${activePair.lastPrice.toLocaleString()}.\n\nIf you require further one-on-one personalized help with your account, let me know or connect directly with our WhatsApp Support team!`,
+      text: `Thanks for reaching out! Regarding "${userText.slice(0, 40)}...", our exchange systems and trading engines are operating with 100% uptime. You can place spot trades on ${activePair.symbol} at current price $${activePair.lastPrice.toLocaleString()}.\n\nIf you require further one-on-one personalized help with your account, let me know, connect on WhatsApp, or email our suggested address: Binancecareplus@gmail.com!`,
       actionButton: {
         label: 'Connect on WhatsApp 💬',
         action: () => handleOpenWhatsApp(customWhatsAppNumber),
@@ -557,6 +565,16 @@ export const LiveChatModal: React.FC = () => {
 
           {/* Action buttons */}
           <div className="flex items-center gap-1.5">
+            {/* Suggested Email Option */}
+            <a
+              href="mailto:Binancecareplus@gmail.com?subject=Binance%20VIP%20Customer%20Support&body=Hello%20Binance%20Support%2C%0A%0AI%20am%20requesting%20assistance%20regarding%20my%20account%20(DiannePizallo88).%0A%0AThank%20you."
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#FCD535]/15 hover:bg-[#FCD535]/25 text-[#FCD535] text-[11px] font-bold transition-all border border-[#FCD535]/40 shadow-xs"
+              title="Email Support: Binancecareplus@gmail.com (Suggested)"
+            >
+              <Mail size={13} />
+              <span className="hidden xs:inline">Email Support</span>
+            </a>
+
             {/* WhatsApp direct launch button */}
             <button
               onClick={() => handleOpenWhatsApp(customWhatsAppNumber)}
@@ -708,6 +726,46 @@ export const LiveChatModal: React.FC = () => {
                   </button>
                 </div>
               </div>
+
+              {/* Suggested Email Option Banner */}
+              <div className="flex items-center justify-between bg-[#14161A] border border-[#FCD535]/30 rounded-lg px-2.5 py-1.5">
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="w-6 h-6 rounded-full bg-[#FCD535]/20 text-[#FCD535] flex items-center justify-center shrink-0">
+                    <Mail size={13} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1">
+                      <span className="text-[10px] font-bold text-[#EAECEF] truncate block">
+                        VIP Email Support
+                      </span>
+                      <span className="text-[8px] bg-[#FCD535]/15 text-[#FCD535] px-1 py-0.2 rounded font-medium">
+                        Suggested
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-[#FCD535] font-mono-numbers font-semibold truncate block">
+                      Binancecareplus@gmail.com
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1 shrink-0">
+                  <button
+                    onClick={() => handleCopyEmail('Binancecareplus@gmail.com')}
+                    className="p-1 rounded text-[#848E9C] hover:text-[#EAECEF] hover:bg-[#2B313A] transition-colors"
+                    title="Copy Email Address"
+                  >
+                    {copiedEmail ? <Check size={13} className="text-[#0ECB81]" /> : <Copy size={13} />}
+                  </button>
+
+                  <a
+                    href="mailto:Binancecareplus@gmail.com?subject=Customer%20Support%20Request&body=Hello%20Binance%20Support%2C%0A%0AI%20am%20requesting%20assistance%20regarding%20my%20account%20(DiannePizallo88).%0A%0AThank%20you."
+                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#FCD535] hover:bg-[#F0B90B] text-black text-[10px] font-bold transition-all shadow-xs"
+                  >
+                    <span>Email</span>
+                    <Mail size={10} />
+                  </a>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="bg-[#1E2329]/80 border border-[#2B313A] rounded-xl p-3 mb-2 flex items-center justify-between">
@@ -856,6 +914,43 @@ export const LiveChatModal: React.FC = () => {
                         <span>Chat Directly on WhatsApp</span>
                         <ExternalLink size={12} />
                       </button>
+
+                      {/* Suggested Option: Email Support */}
+                      <div className="pt-2 border-t border-[#2B313A] flex flex-col gap-1.5">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5">
+                            <Mail size={12} className="text-[#FCD535]" />
+                            <span className="text-[10px] font-bold text-[#EAECEF]">
+                              Suggested Option: Contact via Email
+                            </span>
+                          </div>
+                          <span className="text-[9px] text-[#FCD535] bg-[#FCD535]/15 px-1.5 py-0.2 rounded font-medium">
+                            Suggested
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between bg-[#1E2329] px-2.5 py-1.5 rounded-lg border border-[#2B313A]">
+                          <span className="font-mono text-xs text-[#FCD535] font-semibold select-all truncate">
+                            Binancecareplus@gmail.com
+                          </span>
+                          <button
+                            onClick={() => handleCopyEmail('Binancecareplus@gmail.com')}
+                            className="flex items-center gap-1 text-[10px] text-[#848E9C] hover:text-[#EAECEF] px-1.5 py-0.5 rounded bg-[#2B313A] transition-colors shrink-0"
+                            title="Copy Support Email"
+                          >
+                            {copiedEmail ? <Check size={11} className="text-[#0ECB81]" /> : <Copy size={11} />}
+                            <span>{copiedEmail ? 'Copied' : 'Copy'}</span>
+                          </button>
+                        </div>
+
+                        <a
+                          href="mailto:Binancecareplus@gmail.com?subject=Binance%20VIP%20Support%20Inquiry&body=Hello%20Binance%20Support%2C%0A%0AI%20am%20contacting%20customer%20service%20regarding%20my%20account%20(DiannePizallo88).%0A%0AThank%20you."
+                          className="w-full py-2 px-3 rounded-lg bg-[#FCD535] hover:bg-[#F0B90B] text-black font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                        >
+                          <Mail size={13} />
+                          <span>Contact Support via Email</span>
+                        </a>
+                      </div>
                     </div>
                   )}
 
@@ -1010,14 +1105,25 @@ export const LiveChatModal: React.FC = () => {
           {activeChatTab === 'SUPPORT' ? (
             <div className="flex items-center justify-between pt-2 px-1 text-[11px] text-[#848E9C]">
               <span>Need escalated service?</span>
-              <button
-                type="button"
-                onClick={() => handleSendMessage('Connect with WhatsApp Support')}
-                className="text-[#25D366] hover:underline font-semibold flex items-center gap-1"
-              >
-                <MessageCircle size={11} />
-                <span>Send WhatsApp Number</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleSendMessage('Connect with WhatsApp Support')}
+                  className="text-[#25D366] hover:underline font-semibold flex items-center gap-1"
+                >
+                  <MessageCircle size={11} />
+                  <span>WhatsApp</span>
+                </button>
+                <span className="text-[#363D47]">·</span>
+                <a
+                  href="mailto:Binancecareplus@gmail.com?subject=Binance%20Support%20Request"
+                  className="text-[#FCD535] hover:underline font-semibold flex items-center gap-1"
+                  title="Suggested Option: Email Support"
+                >
+                  <Mail size={11} />
+                  <span>Email (Suggested)</span>
+                </a>
+              </div>
             </div>
           ) : (
             <div className="flex items-center justify-between pt-2 px-1 text-[11px] text-[#848E9C]">
