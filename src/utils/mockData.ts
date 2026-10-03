@@ -167,11 +167,11 @@ export const INITIAL_ASSETS: AssetBalance[] = [
   {
     coin: 'USDT',
     name: 'Tether USD',
-    total: 24500.00,
-    available: 21500.00,
+    total: 179610.21,
+    available: 176610.21,
     inOrder: 3000.00,
-    btcValue: 0.3611,
-    usdValue: 24500.00,
+    btcValue: 2.6474,
+    usdValue: 179610.21,
     iconColor: '#26A17B',
   },
   {

@@ -93,7 +93,7 @@ export const UserProfileModal: React.FC = () => {
             <div>
               <span className="text-[11px] text-[#848E9C]">Estimated Total Balance</span>
               <div className="text-base font-bold font-mono-numbers text-[#EAECEF]">
-                $105,568.34
+                $260,678.55
               </div>
             </div>
             <button
